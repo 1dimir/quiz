@@ -45,12 +45,16 @@ class QuizDB(object):
 
         self.cursor.execute(
             "SELECT\n"
-            "   key,\n"
-            "   description\n"
+            "   choices.key,\n"
+            "   choices.description,\n"
+            "   not answers.qid IS NULL AS is_correct\n"
             "FROM\n"
             "   choices\n"
+            "   LEFT JOIN answers\n"
+            "       ON answers.qid = choices.qid\n"
+            "       AND answers.key = choices.key\n"
             "WHERE\n"
-            "   qid = %(question_id)s\n",
+            "   choices.qid = %(question_id)s\n",
             {
                 'question_id': question[0]
             }
@@ -58,13 +62,14 @@ class QuizDB(object):
 
         choices = self.cursor.fetchall()
 
-        print question[1]
+        print choices[1][2]
         return {
             'question': u'{}'.format(question[1]),
             'choices': [
                 {
                     'key': u'{}'.format(choice[0]),
-                    'text': u'{}'.format(choice[1])
+                    'text': u'{}'.format(choice[1]),
+                    'correct': bool(choice[2])
                 }
                 for choice in choices
             ]

@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="{{url_for('static', filename='styles.css')}}" rel='stylesheet' type='text/css'/>
     <meta charset="UTF-8">
     <title>Раздел {{ section }}, вопрос {{number}}</title>
 </head>
 <body>
+    <nav>
     <div>
         <a href="{{url_for('show_question', section=section, number=number-1 )}}">Предыдующий вопрос</a>
     </div>
@@ -12,13 +14,14 @@
     <div>
         <a href="{{url_for('show_question', section=section, number=number+1 )}}">Следующий вопрос</a>
     </div>
+    </nav>
 
     <div>
         {{ question }}
     </div>
     <ol>
     {% for choice in choices %}
-    <li id = {{ choice['key'] }} >
+    <li id = {{ choice['key'] }} class = {% if choice['correct'] == true %} correct {% else %} incorrect {% endif %} >
         {{ choice['text'] }}
     </li>
     {% endfor %}
