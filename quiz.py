@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import g
 from flask import render_template
+from flask import jsonify
 from modules.crossdomain import crossdomain
 
 from modules.db import QuizDB
@@ -30,6 +31,13 @@ def show_question(section, number):
         section=section,
         number=number
     )
+
+
+@app.route('/rest/q/<int:section>/<int:number>')
+def get_question_json(section, number):
+
+    response = get_db().get_question(section, number)
+    return jsonify(response)
 
 
 @app.route("/")
