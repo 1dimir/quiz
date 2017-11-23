@@ -17,7 +17,6 @@ def get_db():
 
 
 @app.route('/q/<int:section>/<int:number>')
-@crossdomain(origin='*')
 def show_question(section, number):
 
     response = get_db().get_question(section, number)
@@ -34,6 +33,7 @@ def show_question(section, number):
 
 
 @app.route('/rest/q/<int:section>/<int:number>')
+@crossdomain(origin='*')
 def get_question_json(section, number):
 
     response = get_db().get_question(section, number)
