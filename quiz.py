@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import g
 from flask import render_template
-from modules import crossdomain
+from modules.crossdomain import crossdomain
 
 from modules.db import QuizDB
 
