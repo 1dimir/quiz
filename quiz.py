@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import g
 from flask import render_template
+from modules import crossdomain
 
 from modules.db import QuizDB
 
@@ -15,6 +16,7 @@ def get_db():
 
 
 @app.route('/q/<int:section>/<int:number>')
+@crossdomain(origin='*')
 def show_question(section, number):
 
     response = get_db().get_question(section, number)
